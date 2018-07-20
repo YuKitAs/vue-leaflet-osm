@@ -1,18 +1,38 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div id="map"></div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'app',
-  components: {
-    HelloWorld
-  }
+  data: function() {
+    return {
+      map: null,
+      tileLayer: null,
+      layers: []
+    }
+  },
+  mounted() {
+    this.initMap()
+    this.initLayers()
+  },
+  methods: {
+    initMap() {
+      this.map = L.map('map', {
+        center: [50.0, 15.0],
+        minZoom: 2,
+        zoom: 2
+      })
+    },
+    initLayers() {
+      this.tileLayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        maxZoom: 18
+      }).addTo(this.map)
+    },
+  },
 }
 </script>
 
@@ -24,5 +44,11 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+#map {
+  height: 600px;
+  width: 800px;
+  border: 1px solid #AAA;
 }
 </style>
